@@ -1,6 +1,9 @@
 # imgpro
 Recognition of anomalies in images inspired by Gamma emission tomography (PGET) instruments,
 
+requirements:
+PHP7
+
 for use locate the reader.php file
 
 $ img = imagecreatefrompng ("images / 6.png");
