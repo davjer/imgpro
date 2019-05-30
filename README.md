@@ -1,7 +1,9 @@
 # imgpro
 Recognition of anomalies in images inspired by Gamma emission tomography (PGET) instruments,
 
-requirements:
+Make a verification of the symmetry of the image, in case of an anomaly represents it with red, this just, its symmetrical equivalent
+
+Requirements:
 PHP7
 
 for use locate the reader.php file
