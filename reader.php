@@ -4,7 +4,7 @@ if( !ini_get('safe_mode') ){
 }
 ini_set('memory_limit', '-1'); 
 error_reporting(E_ERROR);
-$img = imagecreatefrompng("images/4.png");
+$img = imagecreatefrompng("images/9.png");
 
 
 imagefilter($img, IMG_FILTER_GRAYSCALE);
@@ -43,7 +43,11 @@ for($i=0;$i<=$x;$i++)
 }//end for recorrido
 
 //analisys
-$scal=24;
+$debug=1;
+$scal=64;/////12
+$loc=1;
+$varianza=0.04;
+
 $nx=($x/$scal);
 $ny=($y/$scal);
 
@@ -255,8 +259,8 @@ $nnb = imagecreatetruecolor($x, $y);
 //var_dump($nbdc);
 /////////////
 
-$debug=0;
-
+////
+/////// search diferente
 
 $nnb = imagecreatetruecolor($nnx, $nny);	
   for($i=0;$i<=$nnx;$i++)
@@ -271,8 +275,11 @@ $nnb = imagecreatetruecolor($nnx, $nny);
 	
 	//echo $finc."</br>"; 
 		
-	if($finc>0.04){ $nColor = imagecolorallocate($nnb, 255, 0, 0);
-                  
+	if($finc>$varianza){ $nColor = imagecolorallocate($nnb, 255, 0, 0);
+                 
+				 
+			if($loc==1) echo "x:".$i."y:".$j."Value:".$colo."</br>";
+				 
 				  }else{
 		  $nColor = imagecolorallocate($nnb, $colo*255, $colo*255, $colo*255);
 		                }  
@@ -289,6 +296,45 @@ $nnb = imagecreatetruecolor($nnx, $nny);
 
 
 ///////////
+$nnb = imagecreatetruecolor($nnx, $nny);	
+  for($i=0;$i<=$nnx;$i++)
+  {
+	  for($j=0;$j<=$nny;$j++){
+		  
+	$colo=$nbdc3[$i][$j];
+	$colo2=$nbdc3[$nnx-$i][$j];
+	
+	if($debug==1){
+	$finc=abs($colo-$colo2);
+	
+	//echo $finc."</br>"; 
+		
+	if($finc>$varianza){ $nColor = imagecolorallocate($nnb, 255, 0, 0);
+                 
+				 
+			if($loc==1) echo "x:".$i."y:".$j."Value:".$colo."</br>";
+				 
+				  }else{
+		  $nColor = imagecolorallocate($nnb, $colo*255, $colo*255, $colo*255);
+		                }  
+	 imagesetpixel($nnb, $i,$j, $nColor);	
+					}else{
+		 $nColor = imagecolorallocate($nnb, $colo*255, $colo*255, $colo*255);			
+		  imagesetpixel($nnb, $i,$j, $nColor);				
+						
+					}
+			
+}
+	
+}
+
+
+
+
+
+
+
+
 ///////
 ////pint img
 /////
