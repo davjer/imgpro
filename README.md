@@ -15,3 +15,6 @@ $debug
 indicates whether it processes symmetrical differences in the image or only displays image
 
 $ scal = 12; to scale the image and analysis
+varianza=0.04  degree of difference between comparisons
+
+$loc=1; if 1 dysplay dataset result, 0 for display image
