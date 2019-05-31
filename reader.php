@@ -4,7 +4,7 @@ if( !ini_get('safe_mode') ){
 }
 ini_set('memory_limit', '-1'); 
 error_reporting(E_ERROR);
-$img = imagecreatefrompng("images/9.png");
+$img = imagecreatefrompng("images/13.png");
 
 
 imagefilter($img, IMG_FILTER_GRAYSCALE);
@@ -44,10 +44,13 @@ for($i=0;$i<=$x;$i++)
 
 //analisys
 $debug=1;
-$scal=64;/////12
+$scal=48;/////12
 $loc=1;
 $varianza=0.04;
 
+//
+///
+////
 $nx=($x/$scal);
 $ny=($y/$scal);
 
@@ -278,7 +281,7 @@ $nnb = imagecreatetruecolor($nnx, $nny);
 	if($finc>$varianza){ $nColor = imagecolorallocate($nnb, 255, 0, 0);
                  
 				 
-			if($loc==1) echo "x:".$i."y:".$j."Value:".$colo."</br>";
+			if($loc==1) echo $i.",".$j.",".$colo.";</br>";
 				 
 				  }else{
 		  $nColor = imagecolorallocate($nnb, $colo*255, $colo*255, $colo*255);
@@ -309,11 +312,10 @@ $nnb = imagecreatetruecolor($nnx, $nny);
 	
 	//echo $finc."</br>"; 
 		
-	if($finc>$varianza){ $nColor = imagecolorallocate($nnb, 255, 0, 0);
-                 
-				 
-			if($loc==1) echo "x:".$i."y:".$j."Value:".$colo."</br>";
-				 
+	if($finc>$varianza){ 
+		
+		$nColor = imagecolorallocate($nnb, 255, 0, 0);
+			if($loc==1) echo $i.",".$j.",".$colo.";</br>";		 
 				  }else{
 		  $nColor = imagecolorallocate($nnb, $colo*255, $colo*255, $colo*255);
 		                }  
@@ -368,8 +370,8 @@ $nnb = imagecreatetruecolor($n1x, $n1y);
 }
 */
 
-
+if($loc==0){
 header('Content-Type: image/png');
 imagepng($nnb);
-
+}
 ?>
