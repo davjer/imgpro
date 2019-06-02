@@ -4,7 +4,19 @@ if( !ini_get('safe_mode') ){
 }
 ini_set('memory_limit', '-1'); 
 error_reporting(E_ERROR);
-$img = imagecreatefrompng("images/6.png");
+
+
+////CONFIG
+$debug=0; // if debug is 1 not compare symetryc 
+$scal=128;/////12// number of scale image, normalize and average value 
+$loc=0; /// if 1, print dataset
+$varianza=0.04;/// varianza for compare pixel group
+////////////
+//
+///
+
+
+$img = imagecreatefrompng("images/objectGeometry.png");
 
 
 imagefilter($img, IMG_FILTER_GRAYSCALE);
@@ -43,13 +55,7 @@ for($i=0;$i<=$x;$i++)
 }//end for recorrido
 
 //analisys
-$debug=1;
-$scal=48;/////12
-$loc=0;
-$varianza=0.04;
 
-//
-///
 ////
 $nx=($x/$scal);
 $ny=($y/$scal);
@@ -82,8 +88,7 @@ for($i=0;$i<=$x;$i=$i+$nx)///$i=$i+$nx
 	    $nly=$j+$scal;
 	if(($ny+$j)<=$y){		
 			for($j2=$j;$j2<=($ny+$j);$j2++){
-				
-		
+					
 			 // $nColor = imagecolorallocate($nb, 255, 0, 0 );	
 		
 		         $colr+=$nfr[$i2][$j2];
@@ -273,7 +278,7 @@ $nnb = imagecreatetruecolor($nnx, $nny);
 	$colo=$nbdc3[$i][$j];
 	$colo2=$nbdc3[$i][$nny-$j];
 	
-	if($debug==1){
+	if($debug==0){
 	$finc=abs($colo-$colo2);
 	
 	//echo $finc."</br>"; 
@@ -307,7 +312,7 @@ $nnb = imagecreatetruecolor($nnx, $nny);
 	$colo=$nbdc3[$i][$j];
 	$colo2=$nbdc3[$nnx-$i][$j];
 	
-	if($debug==1){
+	if($debug==0){
 	$finc=abs($colo-$colo2);
 	
 	//echo $finc."</br>"; 
