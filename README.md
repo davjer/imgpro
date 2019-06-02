@@ -13,7 +13,11 @@ to indicate image to analyze
 
 ////CONFIG
 $debug=1; // if debug is 1 not compare symetryc 
+
 $scal=128;/////12// number of scale image, normalize and average value 
+
 $loc=0; /// if 1, print dataset
+
 $varianza=0.04;/// varianza for compare pixel group
+
 ////////////
