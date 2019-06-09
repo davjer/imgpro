@@ -21,6 +21,7 @@ $loc=0; /// if 1, print dataset
 $varianza=0.04;/// varianza for compare pixel group
 
 ////////////
+use load for reconstruction the image
 load.php
 
 when include put $print=0;
