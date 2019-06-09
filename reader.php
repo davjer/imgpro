@@ -6,18 +6,26 @@ ini_set('memory_limit', '-1');
 error_reporting(E_ERROR);
 
 
+
+
 ////CONFIG
 $debug=0; // if debug is 1 not compare symetryc 
-$scal=128;/////12// number of scale image, normalize and average value 
+$scal=12;//589;/////12// number of scale image, normalize and average value 
 $loc=0; /// if 1, print dataset
-$varianza=0.04;/// varianza for compare pixel group
+$varianza=0.7;/// varianza for compare pixel group
+$rotate=0;
 ////////////
 //
 ///
+include "load.php";
+
+echo "pin:".$posar[12][12];
+
+$img = imagecreatefrompng("cpm01/objectGeometry.png");
 
 
-$img = imagecreatefrompng("images/objectGeometry.png");
 
+if($rotate<>0) imagerotate($img , $rotate, 0);
 
 imagefilter($img, IMG_FILTER_GRAYSCALE);
 $rgb = imagecolorat($img, 0, 0);
@@ -39,7 +47,7 @@ for($i=0;$i<=$x;$i++)
 		$rgb = imagecolorat($img, $i, $j);
 	
 	 $Colors = imagecolorsforindex($img,$rgb);
-	 include 'version1.php';
+
 	 
 	 $nrgb=$Colors['red']/255; 
 
@@ -144,7 +152,7 @@ for($i=0;$i<=$x;$i=$i+$nx)///$i=$i+$nx
 	
 
 				 $nbdc3[$i+$i2][$j+$j2]= $bloq;	 //img
-				 $nnx=$i+$i2;
+				
 				 $nny=$j+$j2;
                 // echo "i".$i2."J:".$j2."</br>";
 				 
@@ -153,7 +161,7 @@ for($i=0;$i<=$x;$i=$i+$nx)///$i=$i+$nx
 						 }///end if 1
 		    
 		 
-
+                $nnx=$i+$i2;
 		
              }//end for recorrido int 1
 
@@ -231,9 +239,7 @@ for($i=0;$i<=$x;$i=$i+$nx)///$i=$i+$nx
 	$bloq=0;
 	$n1y++;
 
-	
-	
-		
+
 			}///end 2 for recorrido
 					//   echo '</br>';
 }//end for recorrido
@@ -270,6 +276,10 @@ $nnb = imagecreatetruecolor($x, $y);
 ////
 /////// search diferente
 
+
+//	echo "x:".$x."R:".abs($nnx/12)."y:".$y."R:".abs($nny/12)."</br>";
+$arrfin=array();
+$nnbxy = imagecreatetruecolor($x, $y);	
 $nnb = imagecreatetruecolor($nnx, $nny);	
   for($i=0;$i<=$nnx;$i++)
   {
@@ -277,68 +287,145 @@ $nnb = imagecreatetruecolor($nnx, $nny);
 		  
 	$colo=$nbdc3[$i][$j];
 	$colo2=$nbdc3[$i][$nny-$j];
+	///////////////
+	////////////////
 	
-	if($debug==0){
-	$finc=abs($colo-$colo2);
+	 $partx=$x/$nnx;
+	$party=$y/$nny;
 	
-	//echo $finc."</br>"; 
-		
-	if($finc>$varianza && $colo>$colo2){ $nColor = imagecolorallocate($nnb, 255, 0, 0);
-                 
-				 
-			if($loc==1) echo $i.",".$j.",".$colo.";</br>";
-				 
-				  }else{
-		  $nColor = imagecolorallocate($nnb, $colo*255, $colo*255, $colo*255);
-		                }  
-	 imagesetpixel($nnb, $i,$j, $nColor);	
-					}else{
-		 $nColor = imagecolorallocate($nnb, $colo*255, $colo*255, $colo*255);			
-		  imagesetpixel($nnb, $i,$j, $nColor);				
-						
-					}
-			
-}
-	
-}
-
-
-///////////
-$nnb = imagecreatetruecolor($nnx, $nny);	
-  for($i=0;$i<=$nnx;$i++)
-  {
-	  for($j=0;$j<=$nny;$j++){
-		  
-	$colo=$nbdc3[$i][$j];
-	$colo2=$nbdc3[$nnx-$i][$j];
-	
+	////////////////
+	/////////////////
 	if($debug==0){
 	$finc=abs($colo-$colo2);
 	
 	//echo $finc."</br>"; 
 		
 	if($finc>$varianza && $colo>$colo2){ 
-		
 		$nColor = imagecolorallocate($nnb, 255, 0, 0);
-			if($loc==1) echo $i.",".$j.",".$colo.";</br>";		 
+     
+	 if($loc==1){ $arrfin[round($i*$partx)][round($j*$party)]="l";}         
+				 
+			if($loc==1){ 
+				//echo $i.",".$j.",".$colo.";</br>";
+				//echo "x2:".$nnx."y2:".$nny."</br>";
+			//	echo "x:".$x."R:".abs($nnx/$x)*$i."y:".$y."R:".abs($nny/$y)*$j."res:".$colo."</br>";
+			               }
+				 
 				  }else{
 		  $nColor = imagecolorallocate($nnb, $colo*255, $colo*255, $colo*255);
 		                }  
-	 imagesetpixel($nnb, $i,$j, $nColor);	
+	 imagesetpixel($nnb, $i,$j, $nColor);
+	 /////
+
+	imagesetpixel($nnbxy, $i*$partx,$j*$party, $nColor);	
+	///////
+	 	
 					}else{
 		 $nColor = imagecolorallocate($nnb, $colo*255, $colo*255, $colo*255);			
 		  imagesetpixel($nnb, $i,$j, $nColor);				
-						
+		  ///////
+		  imagesetpixel($nnbxy, $i*$partx,$j*$party, $nColor);				
+		  /////////
 					}
 			
 }
 	
 }
 
+//echo "nnx".$nnx." nny".$nny;
+///////////
+$nnb = imagecreatetruecolor($nnx, $nny);	
+
+$color_texto = imagecolorallocate($nnb, 0, 0, 255);
+$countf=0;
+  for($i=0;$i<=$nnx;$i++)
+  {
+	  for($j=0;$j<=$nny;$j++){
+		  
+	$colo=$nbdc3[$i][$j];
+	$colo2=$nbdc3[$nnx-$i][$j];
+	///////////////
+	////////////////
+	
+	 $partx=$x/$nnx;
+	$party=$y/$nny;
+	
+	////////////////
+	/////////////////
+	if($debug==0){
+	$finc=abs($colo-$colo2);
+	
+	//echo $finc."</br>"; 
+		
+	if($finc>$varianza && $colo>$colo2){ 
+		$countf++;
+		$nColor = imagecolorallocate($nnb, 255, 0, 0);
+		
+			 if($loc==1){ $arrfin[round($i*$partx)][round($j*$party)]="l";}    
+			
+			if($loc==1){ 
+				
+		//	echo "x:".$x."R:".abs($nnx/$x)*$i."y:".$y."R:".abs($nny/$y)*$j."res:".$colo."</br>";
+				//echo $i.",".$j.",".$colo.";</br>";	
+			                }	 
+				  }else{
+		  $nColor = imagecolorallocate($nnb, $colo*255, $colo*255, $colo*255);
+		                }  
+	 imagesetpixel($nnb, $i,$j, $nColor);
+	 /////	
+	
+	 imagesetpixel($nnbxy, $i*$partx,$j*$party, $nColor);
+	 ///////
+					}else{
+		 $nColor = imagecolorallocate($nnb, $colo*255, $colo*255, $colo*255);			
+		  imagesetpixel($nnb, $i,$j, $nColor);	
+		  /////////			
+			imagesetpixel($nnbxy, $i*$partx,$j*$party, $nColor);			
+			/////////
+					}
+			
+}
+	
+}
+
+/////////////////////////
+//////////////////////////
+///////////////////////////
+///////////////////////////
+	
+if($loc==1){
+	$anom=0;
+	$corr=0;
+for($i=0;$i<=$x;$i++)
+{
+	
+	
+	for($j=0;$j<=$y;$j++){
+		
+	
+		$rgb = imagecolorat($nnbxy, $i, $j);
+	
+	 $Colors = imagecolorsforindex($nnbxy,$rgb);
+
+	 
+	
+
+	 if($Colors['red']==255 && $Colors['blue']==0 && $Colors['green']==0) {	$anom++; echo ($i+1).",".($j+1).",1;</br>";}else{
+	 	
+	$corr++;	
+		
+		
+		
+	 }
+
+                       }//end for recorrido
+ 
+				//	   echo '</br>';
+}//end for recorrido
 
 
 
-
+}/// end if
 
 
 
@@ -375,8 +462,28 @@ $nnb = imagecreatetruecolor($n1x, $n1y);
 }
 */
 
+////print res
+/*
+if($loc==1 && 1==2){
+  for($i=0;$i<=$x;$i++)
+  {
+	  for($j=0;$j<=$y;$j++){
+	
+		$colo=$arrfin[$i][$j];
+        if($colo=="l"){echo ($i+1).",".($j+1).",".$nfr[$i][$j].";</br>";} 
+	
+}
+	
+}
+
+}
+*/
+//imagescale ( $nnb , $x,  $y ,  IMG_BILINEAR_FIXED );
+
+imagejpeg($nnbxy, "Dataset_reconstruccion.jpg");
+//file_put_contents('img1.png', file_get_contents($nnb));
 if($loc==0){
 header('Content-Type: image/png');
-imagepng($nnb);
+imagepng($nnbxy);
 }
 ?>
