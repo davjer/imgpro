@@ -21,3 +21,6 @@ $loc=0; /// if 1, print dataset
 $varianza=0.04;/// varianza for compare pixel group
 
 ////////////
+load.php
+
+when include put $print=0;
