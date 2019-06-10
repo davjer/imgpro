@@ -1,6 +1,8 @@
 <?php
-	error_reporting(E_ERROR);
-$fp = fopen("cpm01/competition01_E0.txt", "r");
+//error_reporting(E_ALL);
+//ini_set('display_errors', '1');
+
+$fp = fopen("training01_EO.txt", "r");
 
 $nd= round(fgets($fp));
 
@@ -8,15 +10,17 @@ $angle= round(fgets($fp));
 
 $pos= fgets($fp);
 
-$print=0;
+$print=0;// for print img or 0 include
 
 $porciones = explode(".", $pos);
 
 $xm=$porciones[0];
 $ym=$porciones[1];
 
-$x=round($xm*2);
-$y=round($ym*2);
+$x=180;//$xm*2;
+$y=250;//$ym*2;
+
+
 
 $res1=$x*$y;
 $res2=round($res1/$nd);
@@ -78,12 +82,6 @@ $mediaf=$mediaf/$max;
 
 
 
-
-
-
-
-
-
  //echo "max:".$max."</br>";   
 /////////
 ///////////
@@ -117,7 +115,10 @@ $av5=1;
 $cic=1;
 $cont=0;
 
-while($t<=$count){
+$cont2=0;;
+
+
+while($t<$count){
 	
 	//echo $res3;
 $lt=$lt+1;
@@ -138,6 +139,8 @@ $val3=round($val*255);
  //echo $val3."<br>";
 
 $nColor = imagecolorallocate($img, $val3, $val3, $val3 );
+
+
 
 
 //echo "x:".$x1."y:".$y1."</br>";
@@ -208,6 +211,9 @@ respos($x1,$y1,$res3,$cont2);
 
 //if($stop==0){
 //	echo "x:".$x;
+
+//echo $cont2,$x1,$y1,round($res3/255),,$res3
+
 imagefilledellipse($img, $x1, $y1, $res3, $res3,  $nColor);	
 //}
 
@@ -535,7 +541,7 @@ fclose($fp);
 //	imagejpeg($img, "Dataset_reconstruccion.jpg");
 
 if($print==1){
-imagejpeg($img, "Dataset_reconstruccion.jpg");
+//imagejpeg($img, "Dataset_reconstruccion.jpg");
 header('Content-Type: image/png');
 imagepng($img);
 }

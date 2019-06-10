@@ -3,25 +3,24 @@ if( !ini_get('safe_mode') ){
     set_time_limit(0); //this won't work if safe_mode is enabled.
 }
 ini_set('memory_limit', '-1'); 
-error_reporting(E_ERROR);
+error_reporting(0);
 
-
-
+include "load.php";
 
 ////CONFIG
 $debug=0; // if debug is 1 not compare symetryc 
-$scal=12;//589;/////12// number of scale image, normalize and average value 
-$loc=0; /// if 1, print dataset
-$varianza=0.7;/// varianza for compare pixel group
+$scal=24;//589;/////12// number of scale image, normalize and average value 
+$loc=1; /// if 1, print dataset
+$varianza=0.5;/// varianza for compare pixel group
 $rotate=0;
 ////////////
 //
 ///
-include "load.php";
 
-echo "pin:".$posar[12][12];
 
-$img = imagecreatefrompng("cpm01/objectGeometry.png");
+//echo "pin:".$posar[12][12];
+
+$img = imagecreatefrompng("images/2.png");
 
 
 
@@ -29,7 +28,7 @@ if($rotate<>0) imagerotate($img , $rotate, 0);
 
 imagefilter($img, IMG_FILTER_GRAYSCALE);
 $rgb = imagecolorat($img, 0, 0);
-$x=imagesx($img);
+ $x= imagesx($img);
 $y = imagesy($img);
 
 $nb = imagecreatetruecolor($x, $y);	
@@ -98,11 +97,11 @@ for($i=0;$i<=$x;$i=$i+$nx)///$i=$i+$nx
 			for($j2=$j;$j2<=($ny+$j);$j2++){
 					
 			 // $nColor = imagecolorallocate($nb, 255, 0, 0 );	
-		
+		         $count++;
 		         $colr+=$nfr[$i2][$j2];
 				 $nbdc[$i+$i2][$j+$j2]=$nfr[$i2][$j2];
 				 $nbdc2[$i+$i2][$j+$j2]= $colr/$count;	 //img
-		         $count++;
+		       
 				 $nnx=$i+$i2;
 				 $nny=$j+$j2;
                 // echo "i".$i2."J:".$j2."</br>";
@@ -280,10 +279,14 @@ $nnb = imagecreatetruecolor($x, $y);
 //	echo "x:".$x."R:".abs($nnx/12)."y:".$y."R:".abs($nny/12)."</br>";
 $arrfin=array();
 $nnbxy = imagecreatetruecolor($x, $y);	
-$nnb = imagecreatetruecolor($nnx, $nny);	
-  for($i=0;$i<=$nnx;$i++)
+$nnb = imagecreatetruecolor($nnx, $nny);
+
+$missin[]=array();
+
+$countf=0;	
+  for($i=0;$i<$nnx;$i++)
   {
-	  for($j=0;$j<=$nny;$j++){
+	  for($j=0;$j<$nny;$j++){
 		  
 	$colo=$nbdc3[$i][$j];
 	$colo2=$nbdc3[$i][$nny-$j];
@@ -293,23 +296,49 @@ $nnb = imagecreatetruecolor($nnx, $nny);
 	 $partx=$x/$nnx;
 	$party=$y/$nny;
 	
+	$relx=$nnx/$x;
+	$rely=$nny/$y;
+	
+	$nxx=round($i/$relx);
+	$nyy=round($j/$rely);
+	
+	
 	////////////////
 	/////////////////
 	if($debug==0){
 	$finc=abs($colo-$colo2);
 	
 	//echo $finc."</br>"; 
+	
+	if($loc==1){//// 3 steap print
+		
+	if($posar[$nxx][$nyy]==""){ $PRT=0;}else{$PRT=$posar[$nxx][$nyy];} 	
+	
+	echo $PRT.",".$nxx.",".$nyy.",".$mediaf.",".$finc.",".$varianza.",".$colo.";</br>";
+		
+	}
+	
+	
+	
 		
 	if($finc>$varianza && $colo>$colo2){ 
+		$countf++;
 		$nColor = imagecolorallocate($nnb, 255, 0, 0);
-     
+		/// full pixels and pin locate, add missing pings
+	 if($loc==1){ //echo $posar[$nxx][$nyy].",".$nxx.",".$nyy.";</br>"; 
+		 $missin[]=$posar[$nxx][$nyy];
+	 }
+	 
+
+	 
+	 
 	 if($loc==1){ $arrfin[round($i*$partx)][round($j*$party)]="l";}         
 				 
-			if($loc==1){ 
-				//echo $i.",".$j.",".$colo.";</br>";
-				//echo "x2:".$nnx."y2:".$nny."</br>";
-			//	echo "x:".$x."R:".abs($nnx/$x)*$i."y:".$y."R:".abs($nny/$y)*$j."res:".$colo."</br>";
-			               }
+		/*	if($loc==1){ 
+				echo $i.",".$j.",".$colo.";</br>";
+				echo "x2:".$nnx."y2:".$nny."</br>";
+				echo "x:".$x."R:".abs($nnx/$x)*$i."y:".$y."R:".abs($nny/$y)*$j."res:".$colo."</br>";
+			               }*/
 				 
 				  }else{
 		  $nColor = imagecolorallocate($nnb, $colo*255, $colo*255, $colo*255);
@@ -337,10 +366,10 @@ $nnb = imagecreatetruecolor($nnx, $nny);
 $nnb = imagecreatetruecolor($nnx, $nny);	
 
 $color_texto = imagecolorallocate($nnb, 0, 0, 255);
-$countf=0;
-  for($i=0;$i<=$nnx;$i++)
+
+  for($i=0;$i<$nnx;$i++)
   {
-	  for($j=0;$j<=$nny;$j++){
+	  for($j=0;$j<$nny;$j++){
 		  
 	$colo=$nbdc3[$i][$j];
 	$colo2=$nbdc3[$nnx-$i][$j];
@@ -350,6 +379,13 @@ $countf=0;
 	 $partx=$x/$nnx;
 	$party=$y/$nny;
 	
+	
+	
+	$relx=$nnx/$x;
+	$rely=$nny/$y;
+	
+	$nxx=round($i/$relx);
+	$nyy=round($j/$rely);
 	////////////////
 	/////////////////
 	if($debug==0){
@@ -357,17 +393,37 @@ $countf=0;
 	
 	//echo $finc."</br>"; 
 		
+		
+	/*	
+	if($loc==1){
+		
+	echo $posar[$nxx][$nyy].",".$nxx.",".$nyy.",".$mediaf.",".$finc.",".$colo.";</br>";
+		
+	}	
+	*/	
+		
 	if($finc>$varianza && $colo>$colo2){ 
 		$countf++;
 		$nColor = imagecolorallocate($nnb, 255, 0, 0);
-		
+	   
+	  
+	   
+	if($loc==1 ){///1 steap missing coordinates
+	   // echo $posar[$nxx][$nyy].",".$nxx.",".$nyy.";</br>"; 	
+		 $missin[]=$posar[$nxx][$nyy];
+	} 
+	
+	
+
+	 
+	
 			 if($loc==1){ $arrfin[round($i*$partx)][round($j*$party)]="l";}    
 			
-			if($loc==1){ 
+		//	if($loc==1){ 
 				
 		//	echo "x:".$x."R:".abs($nnx/$x)*$i."y:".$y."R:".abs($nny/$y)*$j."res:".$colo."</br>";
 				//echo $i.",".$j.",".$colo.";</br>";	
-			                }	 
+			       //         }	 
 				  }else{
 		  $nColor = imagecolorallocate($nnb, $colo*255, $colo*255, $colo*255);
 		                }  
@@ -392,6 +448,25 @@ $countf=0;
 //////////////////////////
 ///////////////////////////
 ///////////////////////////
+$tr=0;
+$nmiss=0;
+while($tr<=181){
+$tr++;	
+	
+	
+  if(array_search($tr, $missin)) $nmiss++;
+
+
+
+}
+///print missing pings cuantify
+if($loc==1 && 1==2) echo "missing:".$nmiss."</br>";
+
+
+
+//////////////////////////////
+//////////////////////////////
+/////////////////////////////
 	
 if($loc==1){
 	$anom=0;
@@ -410,12 +485,13 @@ for($i=0;$i<=$x;$i++)
 	 
 	
 
-	 if($Colors['red']==255 && $Colors['blue']==0 && $Colors['green']==0) {	$anom++; echo ($i+1).",".($j+1).",1;</br>";}else{
+	 if($Colors['red']==255 && $Colors['blue']==0 && $Colors['green']==0) {	
+		 $anom++; 
+	//	 echo ($i+1).",".($j+1).",1;</br>";
+	 }else{
 	 	
 	$corr++;	
-		
-		
-		
+			
 	 }
 
                        }//end for recorrido
@@ -426,6 +502,8 @@ for($i=0;$i<=$x;$i++)
 
 
 }/// end if
+
+
 
 
 
@@ -480,7 +558,7 @@ if($loc==1 && 1==2){
 */
 //imagescale ( $nnb , $x,  $y ,  IMG_BILINEAR_FIXED );
 
-imagejpeg($nnbxy, "Dataset_reconstruccion.jpg");
+//imagejpeg($nnbxy, "Dataset_reconstruccion.jpg");
 //file_put_contents('img1.png', file_get_contents($nnb));
 if($loc==0){
 header('Content-Type: image/png');
