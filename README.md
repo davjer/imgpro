@@ -4,7 +4,7 @@ Recognition of anomalies in images inspired by Gamma emission tomography (PGET) 
 Make a verification of the symmetry of the image, in case of an anomaly represents it with red, this just, its symmetrical equivalent
 
 Requirements:
-PHP7
+PHP7 (this is very important, since only PHP7 has the processing speed for the functions, the use of previous versions can cause a great delay or fall by time)
 
 for use locate the reader.php file
 
