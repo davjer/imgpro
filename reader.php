@@ -10,7 +10,7 @@ include "load.php";
 ////CONFIG
 $debug=0; // if debug is 1 not compare symetryc 
 $scal=24;//589;/////12// number of scale image, normalize and average value 
-$loc=1; /// if 1, print dataset
+$loc=0; /// if 1, print dataset
 $varianza=0.5;/// varianza for compare pixel group
 $rotate=0;
 ////////////
@@ -20,7 +20,7 @@ $rotate=0;
 
 //echo "pin:".$posar[12][12];
 
-$img = imagecreatefrompng("images/2.png");
+$img = imagecreatefrompng("cpm06/objectGeometry.png");
 
 
 
