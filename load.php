@@ -118,7 +118,7 @@ $cont=0;
 $cont2=0;;
 $i=0;
 $j=$res3/2;
-
+$color_texto = imagecolorallocate($img, 255, 0, 0 );
 while($t<$count){
 	
 	//echo $res3;
@@ -154,7 +154,7 @@ $nColor = imagecolorallocate($img, $val3, $val3, $val3 );
 	respos($x1,$y1,$res3,$cont2);	
 imagefilledellipse($img, $i, $j, $res3, $res3,  $nColor);	
 
-imagestring($img, 3, $i-5 , $j-7,$cont2 , $color_texto);	
+//imagestring($img, 3, $i-5 , $j-7,$cont2 , $color_texto);	/// uncoment for view pin number
 }
 
 
