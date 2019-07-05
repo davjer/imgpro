@@ -31,3 +31,9 @@ a rectangle is proposed for the search of pins, this is construlled as the data 
 for review please look the PNG "template_pins.png", you can run square.php for view
 
 you can comment include "load.php" in the line 8, and load any image, for this change the route in line 23
+
+######
+
+you can run the square.php function to reconstruct the shape of the pins
+
+
