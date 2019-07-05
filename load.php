@@ -2,7 +2,7 @@
 //error_reporting(E_ALL);
 //ini_set('display_errors', '1');
 
-$fp = fopen("training01_EO.txt", "r");
+$fp = fopen("cpm06/competition06_E0.txt", "r");
 
 $nd= round(fgets($fp));
 
@@ -145,61 +145,23 @@ $nColor = imagecolorallocate($img, $val3, $val3, $val3 );
 
 //echo "x:".$x1."y:".$y1."</br>";
 
+	if($i<($x-$res3)){$i=$i+$res3;}else{$j=$j+$res3;$i=$res3;}
+		
+		
+	//echo "i".$i."j".$j."</br>";
+	if($cont2<=176){
+	respos($x1,$y1,$res3,$cont2);	
+imagefilledellipse($img, $i, $j, $res3, $res3,  $nColor);	
+
+imagestring($img, 3, $i-5 , $j-7,$cont2 , $color_texto);	
+}
 
 
-if($x1<=$x-($res3*$cic)+1 && $av1==1){
-$x1=$x1+($res3+1);	
-	$av6=0;
-respos($x1,$y1,$res3,$cont2);
+
 
 //if($cic==2)	echo "x:".$x1."y:".$y."res:".$x-($res3*$cic)+1;
 //$x1=$res3+1;
-}else{	
-	
 
-	if($y1<$y-($res3*$cic)+1 && $av2==1){
-	$y1=$y1+$res3+1;	
-	$av7=0;
-	respos($x1,$y1,$res3,$cont2);
-                 }else{
-                 	
-					if($av7==1)	$y1=$y1+$res3+1;
-					$av7=0;
-					 if($x1>($res3*$cic)+1 && $av4==1){
-						 $av1=0;
-					$x1=$x1-$res3-1;		
-					respos($x1,$y1,$res3,$cont2);
-                        }else{
-                        	$av4=0;
-						if($av3==1)$cic++;
-						
-							$av3=0;
-							$av2=0;
-							 if($y1>($res3*$cic)+1 && $av5==1){
-								
-						    $y1=$y1-$res3-1;
-						respos($x1,$y1,$res3,$cont2);
-					                       }else{
-					                        $av5=1;     	
-											$av1=1;
-											$av2=1;
-											 ///  if($cic<3){
-											$av5=1;
-											$av2=1; 	
-											$av1=1;
-											$av3=1;
-											$av4=1;
-											$av5=1;
-											//}
-											
-					                       }
-                             }
-					}
-
-
-
-
-}
 
 //if($y1>=$y-$res3){
 //$stop=1;	
@@ -214,7 +176,7 @@ respos($x1,$y1,$res3,$cont2);
 
 //echo $cont2,$x1,$y1,round($res3/255),,$res3
 
-imagefilledellipse($img, $x1, $y1, $res3, $res3,  $nColor);	
+//imagefilledellipse($img, $x1, $y1, $res3, $res3,  $nColor);	
 //}
 
 
