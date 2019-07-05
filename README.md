@@ -28,6 +28,6 @@ when include put $print=0;
 
 
 a rectangle is proposed for the search of pins, this is construlled as the data file is traversed, averaging each segment to fill each pin.
-for review please look the PNG "template_pins.png"
+for review please look the PNG "template_pins.png", you can run square.php for view
 
 you can comment include "load.php" in the line 8, and load any image, for this change the route in line 23
