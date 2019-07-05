@@ -116,7 +116,8 @@ $cic=1;
 $cont=0;
 
 $cont2=0;;
-
+$i=0;
+$j=$res3/2;
 
 while($t<$count){
 	
