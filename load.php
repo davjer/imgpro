@@ -151,7 +151,7 @@ $nColor = imagecolorallocate($img, $val3, $val3, $val3 );
 		
 	//echo "i".$i."j".$j."</br>";
 	if($cont2<=176){
-	respos($x1,$y1,$res3,$cont2);	
+	respos($i,$j,$res3,$cont2);	
 imagefilledellipse($img, $i, $j, $res3, $res3,  $nColor);	
 
 //imagestring($img, 3, $i-5 , $j-7,$cont2 , $color_texto);	/// uncoment for view pin number
