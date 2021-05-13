@@ -36,4 +36,7 @@ you can comment include "load.php" in the line 8, and load any image, for this c
 
 you can run the square.php function to reconstruct the shape of the pins
 
+More About Proyect:
+https://ideas.unite.un.org/iaea-tomography/Page/ViewIdea?ideaid=1505
+
 
